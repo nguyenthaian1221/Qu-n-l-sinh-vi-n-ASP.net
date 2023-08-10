@@ -1,0 +1,217 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Teacher/Views/Shared/_layout.cshtml";
+
+}
+
+
+@{
+    var db = new Project2_QLSVLDA.Models.QL_PROJECTEntities();
+    var ss = Session["user"].ToString();
+    var ds_lop_voi_giao_vien = (from lmh in db.LOPMONHOCs
+                                where lmh.magv.ToString().Trim() == ss
+                                select new
+                                {
+                                    lmh.malop
+                                }).ToList();
+
+}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1></h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index","GiaoVienHome")">Trang chủ</a></li>
+                    <li class="breadcrumb-item">Tạo bài tập</li>
+
+
+                    @*<li class="breadcrumb-item active">Danh sách lớp</li>*@
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+
+
+
+        <div class="row">
+            <div class="offset-md-2 col-md-7">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Tạo bài tập</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="container">
+
+                            <form method="post" action="/GiaoVienBaiTap/ActionName" onsubmit="return validateForm()">
+
+
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label for="city">Mã lớp</label>
+                                    </div>
+
+                                    <div class="col">
+                                        <select name="lopgianday" class="form-select form-select-sm mb-3 offset-md-2" id="lopgianday" aria-label=".form-select-sm" style="width:200px">
+                                            <option value="" selected>Chọn mã lớp</option>
+                                            @foreach (var item in ds_lop_voi_giao_vien)
+                                            {
+                                                <option value="@item.malop.ToString()">@item.malop</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label for="district">Mã Nhóm</label>
+                                    </div>
+                                    <div class="col">
+                                        <select name="nhomtronglop" class="form-select form-select-sm mb-3 offset-md-2" id="nhomtronglop" aria-label=".form-select-sm" style="width:200px">
+                                            <option value="" selected>Chọn nhóm</option>
+                                            @for (int i = 1; i <= 10; i++)
+                                            {
+                                                <option value="@i.ToString()">@i.ToString()</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+
+                                @*<input type="text" class="form-control" id="malop" name="malop" />*@
+
+
+
+
+
+                                @* <input type="text" class="form-control" id="manhom" name="manhom" />*@
+
+
+
+
+
+
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label for="start-date">Ngày bắt đầu</label>
+                                        <input type="date" class="form-control" id="start-date" name="ngaybatdau">
+                                    </div>
+                                    <div class="form-group offset-md-2">
+                                        <label for="start-time">Thời gian bắt đầu</label>
+                                        <input type="time" class="form-control" id="start-time" name="giobatdau">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label for="end-date">Ngày kết thúc </label>
+                                        <input type="date" class="form-control" id="end-date" name="ngayketthuc">
+                                    </div>
+
+                                    <div class="form-group offset-md-2">
+                                        <label for="end-time">Thời hạn nộp</label>
+                                        <input type="time" class="form-control" id="end-time" name="gioketthuc">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="exercise_content">Nội dung bài tập</label>
+                                    @* <input type="text" class="form-control" id="location" name="diadiem">*@
+                                    <div>
+                                        <textarea name="exercise_content" rows="4" id="exercise_content" style="width:100%"></textarea>
+
+                                    </div>
+
+
+                                </div>
+                                <button type="submit" class="btn btn-primary">Lưu</button>
+                                <a href="@Url.Action("DanhSachBaiTapDaTao","GiaoVienBaiTap")" class="btn btn-primary">Danh sách đã tạo</a>
+
+
+                            </form>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+
+    </div>
+
+    <!-- /.container-fluid -->
+</section>
+
+@section JS{
+    <script>
+
+        function validateForm() {
+            var startDate = new Date(document.getElementById('start-date').value + ' ' + document.getElementById('start-time').value);
+            var endDate = new Date(document.getElementById('end-date').value + ' ' + document.getElementById('end-time').value);
+            var lopgianday = document.getElementById("lopgianday");
+            var nhomtronglop = document.getElementById("nhomtronglop");
+ 
+            if (lopgianday.value.trim() === "") {
+                alert("Vui lòng chọn mã lớp.");
+                return false;
+            }
+
+            if (nhomtronglop.value.trim() === "") {
+                alert("Vui lòng chọn mã nhóm.");
+                return false;
+            }
+
+            if (!document.getElementById('start-date').value) {
+                alert("Vui lòng điền Start date");
+                return false;
+            }
+
+            if (!document.getElementById('start-time').value) {
+                alert("Vui lòng điền Start time");
+                return false;
+            }
+
+
+            if (!document.getElementById('end-date').value) {
+                alert("Vui lòng điền End date");
+                return false;
+            }
+
+            if (!document.getElementById('end-time').value) {
+                alert("Vui lòng điền End time");
+                return false;
+            }
+
+            var exercise_content = document.getElementById("exercise_content").value.trim();
+
+            if (exercise_content === "") {
+                alert("Vui lòng điền nội dung bài tập");
+                return false;
+            }
+
+            if (endDate <= startDate) {
+                alert('End time must be after start time.');
+
+
+                return false;
+            }
+
+
+
+            return true;
+        }
+
+    </script>
+} 

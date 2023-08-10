@@ -1,0 +1,102 @@
+﻿@model Project2_QLSVLDA.Content.Custom.Class.ClassID
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Areas/Student/Views/Shared/_layout.cshtml";
+}
+
+@{
+    var id_to_cp = Model.Id;
+
+    var db = new Project2_QLSVLDA.Models.QL_PROJECTEntities();
+    var ketqua_orgin = (from svmh in db.SINHVIENMONHOCs
+                        join sv in db.SINHVIENs on svmh.mssv equals sv.massv
+                        join nsv in db.NHOMSINHVIENs on svmh.mssv equals nsv.masinhvien
+                        where svmh.malop == id_to_cp && nsv.malop == id_to_cp
+                        select new
+                        {
+                            svmh.mssv,
+                            svmh.malop,
+                            nsv.nhom,
+                            sv.ten
+                        }).ToList();
+
+    string ses_sinhvien = Session["user"].ToString();
+
+    var nhomsinhvien = db.NHOMSINHVIENs.Where(m => m.masinhvien == ses_sinhvien && m.malop == id_to_cp).Select(n => n.nhom).First();
+
+    var ketqua_hienthi = ketqua_orgin.Where(m => m.nhom == nhomsinhvien).ToList();
+
+    // Lấy mã giảng viên --> lấy được tên giảng viên
+
+    var thongtin_GV = (from lmp in db.LOPMONHOCs
+                      join gv in db.GIANGVIENs on lmp.magv equals gv.magv
+                      where lmp.malop == id_to_cp
+                      select new
+                      {
+                          gv.magv,
+                          gv.ten
+                      }).First();
+
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1></h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    @*<li class="breadcrumb-item">Trang chủ</li>*@
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index","SinhVienHome")">Trang chủ</a></li>
+                    <li class="breadcrumb-item active"><a href="@Url.Action("Index","SVClass")">Danh sách lớp học</a></li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<div class="container-fluid">
+    <div class="row">
+        <h4>Danh sách thành viên nhóm </h4>
+        <h5 class="offset-md-2">Giáo viên: <a href="/Student/SV_DetailTeacher/Details/@thongtin_GV.magv.Trim()">@thongtin_GV.ten</a></h5>
+    </div>
+
+    <div class="row">
+        <table class="table table-bordered">
+            <tr>
+                <th>
+                    MSSV
+                </th>
+                <th>
+                    Tên
+                </th>
+                <th>
+                    Nhóm
+                </th>
+                <th>
+                    Chi tiết
+                </th>
+            </tr>
+            @foreach (var item in ketqua_hienthi)
+            {
+                <tr class="data-row">
+                    <td>
+                        @item.mssv
+                    </td>
+                    <td>
+                        @item.ten
+                    </td>
+                    <td>
+                        @item.nhom
+                    </td>
+                    <td>
+                        <a href="/Student/SV_DetailStudent/Details/@item.mssv.Trim()">Details</a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+

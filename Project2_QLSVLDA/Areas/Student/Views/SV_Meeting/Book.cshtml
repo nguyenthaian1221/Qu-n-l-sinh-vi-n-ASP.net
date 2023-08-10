@@ -1,0 +1,149 @@
+﻿@model Project2_QLSVLDA.Content.Custom.Class.ClassID
+
+@{
+    ViewBag.Title = "Book";
+    Layout = "~/Areas/Student/Views/Shared/_Layout.cshtml";
+}
+
+@{
+
+    var db = new Project2_QLSVLDA.Models.QL_PROJECTEntities();
+    var ses = Session["user"].ToString();
+
+    var ds_lop_voi_giao_vien = (from lmh in db.LOPMONHOCs
+                                join svmh in db.SINHVIENMONHOCs on lmh.malop equals svmh.malop
+                                where ses == svmh.mssv && lmh.magv == Model.Id
+                                select new
+                                {
+                                    lmh.malop
+                                }).ToList();
+}
+
+
+
+<section class="content">
+    <div class="container-fluid ">
+        <div class="row">
+            <!-- left column -->
+            <div class=" col-md-3"></div>
+            <!-- left column -->
+            <div class="col-md-5">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Điền thông tin</h3>
+
+                        <button class="btn btn-secondary" onclick="redirectToIndex1()" style="float: right">
+                            <i class="fas fa-times"></i>
+                        </button>
+
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+
+                    @using (Html.BeginForm("DienThongTin", "SV_Meeting", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "return validateForm();" }))
+                    {
+                        @Html.Hidden("macuochen", Request.QueryString["macuochen"])
+                        @Html.Hidden("magiaovien", Request.QueryString["magiaovien"])
+                        <div class="card-body">
+
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label for="city">Mã lớp</label>
+                                </div>
+
+                                <div class="col">
+                                    <select name="lopgianday" class="form-select form-select-sm mb-3 offset-md-2" id="lopgianday" aria-label=".form-select-sm" style="width:200px">
+                                        <option value="" selected>Chọn mã lớp</option>
+                                        @foreach (var item in ds_lop_voi_giao_vien)
+                                        {
+                                            <option value="@item.malop.ToString()">@item.malop</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label for="district">Mã Nhóm</label>
+                                </div>
+                                <div class="col">
+                                    <select name="nhomtronglop" class="form-select form-select-sm mb-3 offset-md-2" id="nhomtronglop" aria-label=".form-select-sm" style="width:200px">
+                                        <option value="" selected>Chọn nhóm</option>
+                                        @for (int i = 1; i <= 10; i++)
+                                        {
+                                            <option value="@i.ToString()">@i.ToString()</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /.card-body -->
+
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Lưu</button>
+
+                        </div>
+
+
+                    }
+
+
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.card -->
+        </div>
+        <!--/.col (right) -->
+    </div>
+    <!-- /.row -->
+
+</section>
+
+
+
+@section JS{
+
+
+    <!-- bs-custom-file-input -->
+    <script src="~/Content/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+
+
+    <script>
+        $(function () {
+            bsCustomFileInput.init();
+        });</script>
+
+    <script>
+    function redirectToIndex1() {
+        window.location.href = '@Url.Action("Index","SV_Meeting")';
+    }
+    </script>
+
+    <script>
+
+        function validateForm() {
+
+            var lopgianday = document.getElementById("lopgianday");
+            var nhomtronglop = document.getElementById("nhomtronglop");
+
+            if (lopgianday.value.trim() === "") {
+                alert("Vui lòng chọn mã lớp.");
+                return false;
+            }
+
+            if (nhomtronglop.value.trim() === "") {
+                alert("Vui lòng chọn mã nhóm.");
+                return false;
+            }
+
+            return true;
+        }
+
+    </script>
+
+
+}
+

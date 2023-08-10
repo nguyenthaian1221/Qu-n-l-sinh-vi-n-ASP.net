@@ -1,0 +1,648 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="QL_PROJECTModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BAITAP">
+          <Key>
+            <PropertyRef Name="mabaitap" />
+          </Key>
+          <Property Name="mabaitap" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="malop" Type="char" MaxLength="10" />
+          <Property Name="manhom" Type="nchar" MaxLength="10" />
+          <Property Name="noidung" Type="nvarchar" MaxLength="250" />
+          <Property Name="ngaybatdau" Type="datetime" />
+          <Property Name="ngayketthuc" Type="datetime" />
+        </EntityType>
+        <EntityType Name="CHUCNANG">
+          <Key>
+            <PropertyRef Name="machucnang" />
+          </Key>
+          <Property Name="machucnang" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="tenchucnang" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CUOCHEN">
+          <Key>
+            <PropertyRef Name="macuochen" />
+          </Key>
+          <Property Name="macuochen" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="thoigianbatdau" Type="datetime" />
+          <Property Name="thoigianketthuc" Type="datetime" />
+          <Property Name="ghichu" Type="text" />
+          <Property Name="malop" Type="nchar" MaxLength="10" />
+          <Property Name="magiaovien" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="tinhtrang" Type="int" Nullable="false" />
+          <Property Name="diadiem" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="GIANGVIEN">
+          <Key>
+            <PropertyRef Name="magv" />
+          </Key>
+          <Property Name="magv" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="ten" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="sdt" Type="char" MaxLength="10" />
+          <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="chucdanh" Type="varchar" MaxLength="20" />
+          <Property Name="congtac" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="LOPMONHOC">
+          <Key>
+            <PropertyRef Name="malop" />
+            <PropertyRef Name="magv" />
+            <PropertyRef Name="mamonhoc" />
+          </Key>
+          <Property Name="malop" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="magv" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="mamonhoc" Type="char" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MONHOC">
+          <Key>
+            <PropertyRef Name="mamonhoc" />
+          </Key>
+          <Property Name="mamonhoc" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="tenmonhoc" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="khoaquanly" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="NHOMSINHVIEN">
+          <Key>
+            <PropertyRef Name="masinhvien" />
+            <PropertyRef Name="malop" />
+            <PropertyRef Name="nhom" />
+          </Key>
+          <Property Name="masinhvien" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="malop" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="nhom" Type="char" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PHANQUYEN">
+          <Key>
+            <PropertyRef Name="machucnang" />
+            <PropertyRef Name="manguoidung" />
+          </Key>
+          <Property Name="machucnang" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="manguoidung" Type="char" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SINHVIEN">
+          <Key>
+            <PropertyRef Name="massv" />
+          </Key>
+          <Property Name="massv" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="ten" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="namsinh" Type="date" Nullable="false" />
+          <Property Name="sdt" Type="char" MaxLength="10" />
+          <Property Name="lop" Type="nvarchar" MaxLength="50" />
+          <Property Name="nien_khoa" Type="smallint" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="SINHVIENBAITAP">
+          <Key>
+            <PropertyRef Name="masinhvien" />
+            <PropertyRef Name="mabaitap" />
+            <PropertyRef Name="malop" />
+          </Key>
+          <Property Name="masinhvien" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="mabaitap" Type="int" Nullable="false" />
+          <Property Name="path" Type="text" Nullable="false" />
+          <Property Name="thoigiannop" Type="datetime" Nullable="false" />
+          <Property Name="malop" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="tenfile" Type="nchar" MaxLength="250" Nullable="false" />
+          <Property Name="comment" Type="nchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="SINHVIENCUOCHEN">
+          <Key>
+            <PropertyRef Name="macuochen" />
+            <PropertyRef Name="masinhvien" />
+          </Key>
+          <Property Name="macuochen" Type="int" Nullable="false" />
+          <Property Name="masinhvien" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="manhom" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="magiaovien" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="thoigiandat" Type="datetime" />
+          <Property Name="malop" Type="char" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SINHVIENMONHOC">
+          <Key>
+            <PropertyRef Name="mssv" />
+            <PropertyRef Name="mamonhoc" />
+            <PropertyRef Name="malop" />
+          </Key>
+          <Property Name="mssv" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="mamonhoc" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="kyhoc" Type="char" MaxLength="10" />
+          <Property Name="thoigianbatdau" Type="date" />
+          <Property Name="thoigianketthuc" Type="date" />
+          <Property Name="malop" Type="char" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tblFileDetails">
+          <Key>
+            <PropertyRef Name="SQLID" />
+          </Key>
+          <Property Name="SQLID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FILENAME" Type="nvarchar" MaxLength="500" />
+          <Property Name="FILEURL" Type="nvarchar" MaxLength="1500" />
+        </EntityType>
+        <EntityType Name="USERACCOUNT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="password" Type="nchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_PHANQUYEN_CHUCNANG">
+          <End Role="CHUCNANG" Type="Self.CHUCNANG" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PHANQUYEN" Type="Self.PHANQUYEN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CHUCNANG">
+              <PropertyRef Name="machucnang" />
+            </Principal>
+            <Dependent Role="PHANQUYEN">
+              <PropertyRef Name="machucnang" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PHANQUYEN_USERACCOUNT">
+          <End Role="USERACCOUNT" Type="Self.USERACCOUNT" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PHANQUYEN" Type="Self.PHANQUYEN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USERACCOUNT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PHANQUYEN">
+              <PropertyRef Name="manguoidung" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SINHVIENBAITAP_BAITAP">
+          <End Role="BAITAP" Type="Self.BAITAP" Multiplicity="1" />
+          <End Role="SINHVIENBAITAP" Type="Self.SINHVIENBAITAP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BAITAP">
+              <PropertyRef Name="mabaitap" />
+            </Principal>
+            <Dependent Role="SINHVIENBAITAP">
+              <PropertyRef Name="mabaitap" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SINHVIENCUOCHEN_CUOCHEN">
+          <End Role="CUOCHEN" Type="Self.CUOCHEN" Multiplicity="1" />
+          <End Role="SINHVIENCUOCHEN" Type="Self.SINHVIENCUOCHEN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CUOCHEN">
+              <PropertyRef Name="macuochen" />
+            </Principal>
+            <Dependent Role="SINHVIENCUOCHEN">
+              <PropertyRef Name="macuochen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="QL_PROJECTModelStoreContainer">
+          <EntitySet Name="BAITAP" EntityType="Self.BAITAP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CHUCNANG" EntityType="Self.CHUCNANG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CUOCHEN" EntityType="Self.CUOCHEN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GIANGVIEN" EntityType="Self.GIANGVIEN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LOPMONHOC" EntityType="Self.LOPMONHOC" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MONHOC" EntityType="Self.MONHOC" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NHOMSINHVIEN" EntityType="Self.NHOMSINHVIEN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PHANQUYEN" EntityType="Self.PHANQUYEN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SINHVIEN" EntityType="Self.SINHVIEN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SINHVIENBAITAP" EntityType="Self.SINHVIENBAITAP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SINHVIENCUOCHEN" EntityType="Self.SINHVIENCUOCHEN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SINHVIENMONHOC" EntityType="Self.SINHVIENMONHOC" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblFileDetails" EntityType="Self.tblFileDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USERACCOUNT" EntityType="Self.USERACCOUNT" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_PHANQUYEN_CHUCNANG" Association="Self.FK_PHANQUYEN_CHUCNANG">
+            <End Role="CHUCNANG" EntitySet="CHUCNANG" />
+            <End Role="PHANQUYEN" EntitySet="PHANQUYEN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PHANQUYEN_USERACCOUNT" Association="Self.FK_PHANQUYEN_USERACCOUNT">
+            <End Role="USERACCOUNT" EntitySet="USERACCOUNT" />
+            <End Role="PHANQUYEN" EntitySet="PHANQUYEN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SINHVIENBAITAP_BAITAP" Association="Self.FK_SINHVIENBAITAP_BAITAP">
+            <End Role="BAITAP" EntitySet="BAITAP" />
+            <End Role="SINHVIENBAITAP" EntitySet="SINHVIENBAITAP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SINHVIENCUOCHEN_CUOCHEN" Association="Self.FK_SINHVIENCUOCHEN_CUOCHEN">
+            <End Role="CUOCHEN" EntitySet="CUOCHEN" />
+            <End Role="SINHVIENCUOCHEN" EntitySet="SINHVIENCUOCHEN" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="QL_PROJECTModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BAITAP">
+          <Key>
+            <PropertyRef Name="mabaitap" />
+          </Key>
+          <Property Name="mabaitap" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="malop" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="manhom" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="noidung" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ngaybatdau" Type="DateTime" Precision="3" />
+          <Property Name="ngayketthuc" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="SINHVIENBAITAPs" Relationship="Self.FK_SINHVIENBAITAP_BAITAP" FromRole="BAITAP" ToRole="SINHVIENBAITAP" />
+        </EntityType>
+        <EntityType Name="CHUCNANG">
+          <Key>
+            <PropertyRef Name="machucnang" />
+          </Key>
+          <Property Name="machucnang" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="tenchucnang" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="USERACCOUNTs" Relationship="Self.PHANQUYEN" FromRole="CHUCNANG" ToRole="USERACCOUNT" />
+        </EntityType>
+        <EntityType Name="CUOCHEN">
+          <Key>
+            <PropertyRef Name="macuochen" />
+          </Key>
+          <Property Name="macuochen" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="thoigianbatdau" Type="DateTime" Precision="3" />
+          <Property Name="thoigianketthuc" Type="DateTime" Precision="3" />
+          <Property Name="ghichu" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="malop" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="magiaovien" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="tinhtrang" Type="Int32" Nullable="false" />
+          <Property Name="diadiem" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="SINHVIENCUOCHENs" Relationship="Self.FK_SINHVIENCUOCHEN_CUOCHEN" FromRole="CUOCHEN" ToRole="SINHVIENCUOCHEN" />
+        </EntityType>
+        <EntityType Name="GIANGVIEN">
+          <Key>
+            <PropertyRef Name="magv" />
+          </Key>
+          <Property Name="magv" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="ten" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="sdt" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="chucdanh" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="congtac" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="LOPMONHOC">
+          <Key>
+            <PropertyRef Name="malop" />
+            <PropertyRef Name="magv" />
+            <PropertyRef Name="mamonhoc" />
+          </Key>
+          <Property Name="malop" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="magv" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="mamonhoc" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MONHOC">
+          <Key>
+            <PropertyRef Name="mamonhoc" />
+          </Key>
+          <Property Name="mamonhoc" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="tenmonhoc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="khoaquanly" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="NHOMSINHVIEN">
+          <Key>
+            <PropertyRef Name="masinhvien" />
+            <PropertyRef Name="malop" />
+            <PropertyRef Name="nhom" />
+          </Key>
+          <Property Name="masinhvien" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="malop" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="nhom" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SINHVIEN">
+          <Key>
+            <PropertyRef Name="massv" />
+          </Key>
+          <Property Name="massv" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="ten" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="namsinh" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="sdt" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="lop" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="nien_khoa" Type="Int16" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="SINHVIENBAITAP">
+          <Key>
+            <PropertyRef Name="masinhvien" />
+            <PropertyRef Name="mabaitap" />
+            <PropertyRef Name="malop" />
+          </Key>
+          <Property Name="masinhvien" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="mabaitap" Type="Int32" Nullable="false" />
+          <Property Name="path" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="thoigiannop" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="malop" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="tenfile" Type="String" MaxLength="250" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="comment" Type="String" MaxLength="250" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="BAITAP" Relationship="Self.FK_SINHVIENBAITAP_BAITAP" FromRole="SINHVIENBAITAP" ToRole="BAITAP" />
+        </EntityType>
+        <EntityType Name="SINHVIENCUOCHEN">
+          <Key>
+            <PropertyRef Name="macuochen" />
+            <PropertyRef Name="masinhvien" />
+          </Key>
+          <Property Name="macuochen" Type="Int32" Nullable="false" />
+          <Property Name="masinhvien" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="manhom" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="magiaovien" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="thoigiandat" Type="DateTime" Precision="3" />
+          <Property Name="malop" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="CUOCHEN" Relationship="Self.FK_SINHVIENCUOCHEN_CUOCHEN" FromRole="SINHVIENCUOCHEN" ToRole="CUOCHEN" />
+        </EntityType>
+        <EntityType Name="SINHVIENMONHOC">
+          <Key>
+            <PropertyRef Name="mssv" />
+            <PropertyRef Name="mamonhoc" />
+            <PropertyRef Name="malop" />
+          </Key>
+          <Property Name="mssv" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="mamonhoc" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="kyhoc" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="thoigianbatdau" Type="DateTime" Precision="0" />
+          <Property Name="thoigianketthuc" Type="DateTime" Precision="0" />
+          <Property Name="malop" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tblFileDetail">
+          <Key>
+            <PropertyRef Name="SQLID" />
+          </Key>
+          <Property Name="SQLID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FILENAME" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FILEURL" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="USERACCOUNT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="CHUCNANGs" Relationship="Self.PHANQUYEN" FromRole="USERACCOUNT" ToRole="CHUCNANG" />
+        </EntityType>
+        <Association Name="FK_SINHVIENBAITAP_BAITAP">
+          <End Role="BAITAP" Type="Self.BAITAP" Multiplicity="1" />
+          <End Role="SINHVIENBAITAP" Type="Self.SINHVIENBAITAP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BAITAP">
+              <PropertyRef Name="mabaitap" />
+            </Principal>
+            <Dependent Role="SINHVIENBAITAP">
+              <PropertyRef Name="mabaitap" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SINHVIENCUOCHEN_CUOCHEN">
+          <End Role="CUOCHEN" Type="Self.CUOCHEN" Multiplicity="1" />
+          <End Role="SINHVIENCUOCHEN" Type="Self.SINHVIENCUOCHEN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CUOCHEN">
+              <PropertyRef Name="macuochen" />
+            </Principal>
+            <Dependent Role="SINHVIENCUOCHEN">
+              <PropertyRef Name="macuochen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PHANQUYEN">
+          <End Role="CHUCNANG" Type="Self.CHUCNANG" Multiplicity="*" />
+          <End Role="USERACCOUNT" Type="Self.USERACCOUNT" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="QL_PROJECTEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BAITAPs" EntityType="Self.BAITAP" />
+          <EntitySet Name="CHUCNANGs" EntityType="Self.CHUCNANG" />
+          <EntitySet Name="CUOCHENs" EntityType="Self.CUOCHEN" />
+          <EntitySet Name="GIANGVIENs" EntityType="Self.GIANGVIEN" />
+          <EntitySet Name="LOPMONHOCs" EntityType="Self.LOPMONHOC" />
+          <EntitySet Name="MONHOCs" EntityType="Self.MONHOC" />
+          <EntitySet Name="NHOMSINHVIENs" EntityType="Self.NHOMSINHVIEN" />
+          <EntitySet Name="SINHVIENs" EntityType="Self.SINHVIEN" />
+          <EntitySet Name="SINHVIENBAITAPs" EntityType="Self.SINHVIENBAITAP" />
+          <EntitySet Name="SINHVIENCUOCHENs" EntityType="Self.SINHVIENCUOCHEN" />
+          <EntitySet Name="SINHVIENMONHOCs" EntityType="Self.SINHVIENMONHOC" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="tblFileDetails" EntityType="Self.tblFileDetail" />
+          <EntitySet Name="USERACCOUNTs" EntityType="Self.USERACCOUNT" />
+          <AssociationSet Name="FK_SINHVIENBAITAP_BAITAP" Association="Self.FK_SINHVIENBAITAP_BAITAP">
+            <End Role="BAITAP" EntitySet="BAITAPs" />
+            <End Role="SINHVIENBAITAP" EntitySet="SINHVIENBAITAPs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SINHVIENCUOCHEN_CUOCHEN" Association="Self.FK_SINHVIENCUOCHEN_CUOCHEN">
+            <End Role="CUOCHEN" EntitySet="CUOCHENs" />
+            <End Role="SINHVIENCUOCHEN" EntitySet="SINHVIENCUOCHENs" />
+          </AssociationSet>
+          <AssociationSet Name="PHANQUYEN" Association="Self.PHANQUYEN">
+            <End Role="CHUCNANG" EntitySet="CHUCNANGs" />
+            <End Role="USERACCOUNT" EntitySet="USERACCOUNTs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="QL_PROJECTModelStoreContainer" CdmEntityContainer="QL_PROJECTEntities">
+          <EntitySetMapping Name="BAITAPs">
+            <EntityTypeMapping TypeName="QL_PROJECTModel.BAITAP">
+              <MappingFragment StoreEntitySet="BAITAP">
+                <ScalarProperty Name="mabaitap" ColumnName="mabaitap" />
+                <ScalarProperty Name="malop" ColumnName="malop" />
+                <ScalarProperty Name="manhom" ColumnName="manhom" />
+                <ScalarProperty Name="noidung" ColumnName="noidung" />
+                <ScalarProperty Name="ngaybatdau" ColumnName="ngaybatdau" />
+                <ScalarProperty Name="ngayketthuc" ColumnName="ngayketthuc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CHUCNANGs">
+            <EntityTypeMapping TypeName="QL_PROJECTModel.CHUCNANG">
+              <MappingFragment StoreEntitySet="CHUCNANG">
+                <ScalarProperty Name="machucnang" ColumnName="machucnang" />
+                <ScalarProperty Name="tenchucnang" ColumnName="tenchucnang" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CUOCHENs">
+            <EntityTypeMapping TypeName="QL_PROJECTModel.CUOCHEN">
+              <MappingFragment StoreEntitySet="CUOCHEN">
+                <ScalarProperty Name="macuochen" ColumnName="macuochen" />
+                <ScalarProperty Name="thoigianbatdau" ColumnName="thoigianbatdau" />
+                <ScalarProperty Name="thoigianketthuc" ColumnName="thoigianketthuc" />
+                <ScalarProperty Name="ghichu" ColumnName="ghichu" />
+                <ScalarProperty Name="malop" ColumnName="malop" />
+                <ScalarProperty Name="magiaovien" ColumnName="magiaovien" />
+                <ScalarProperty Name="tinhtrang" ColumnName="tinhtrang" />
+                <ScalarProperty Name="diadiem" ColumnName="diadiem" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GIANGVIENs">
+            <EntityTypeMapping TypeName="QL_PROJECTModel.GIANGVIEN">
+              <MappingFragment StoreEntitySet="GIANGVIEN">
+                <ScalarProperty Name="magv" ColumnName="magv" />
+                <ScalarProperty Name="ten" ColumnName="ten" />
+                <ScalarProperty Name="sdt" ColumnName="sdt" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="chucdanh" ColumnName="chucdanh" />
+                <ScalarProperty Name="congtac" ColumnName="congtac" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LOPMONHOCs">
+            <EntityTypeMapping TypeName="QL_PROJECTModel.LOPMONHOC">
+              <MappingFragment StoreEntitySet="LOPMONHOC">
+                <ScalarProperty Name="malop" ColumnName="malop" />
+                <ScalarProperty Name="magv" ColumnName="magv" />
+                <ScalarProperty Name="mamonhoc" ColumnName="mamonhoc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MONHOCs">
+            <EntityTypeMapping TypeName="QL_PROJECTModel.MONHOC">
+              <MappingFragment StoreEntitySet="MONHOC">
+                <ScalarProperty Name="mamonhoc" ColumnName="mamonhoc" />
+                <ScalarProperty Name="tenmonhoc" ColumnName="tenmonhoc" />
+                <ScalarProperty Name="khoaquanly" ColumnName="khoaquanly" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NHOMSINHVIENs">
+            <EntityTypeMapping TypeName="QL_PROJECTModel.NHOMSINHVIEN">
+              <MappingFragment StoreEntitySet="NHOMSINHVIEN">
+                <ScalarProperty Name="masinhvien" ColumnName="masinhvien" />
+                <ScalarProperty Name="malop" ColumnName="malop" />
+                <ScalarProperty Name="nhom" ColumnName="nhom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SINHVIENs">
+            <EntityTypeMapping TypeName="QL_PROJECTModel.SINHVIEN">
+              <MappingFragment StoreEntitySet="SINHVIEN">
+                <ScalarProperty Name="massv" ColumnName="massv" />
+                <ScalarProperty Name="ten" ColumnName="ten" />
+                <ScalarProperty Name="namsinh" ColumnName="namsinh" />
+                <ScalarProperty Name="sdt" ColumnName="sdt" />
+                <ScalarProperty Name="lop" ColumnName="lop" />
+                <ScalarProperty Name="nien_khoa" ColumnName="nien_khoa" />
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SINHVIENBAITAPs">
+            <EntityTypeMapping TypeName="QL_PROJECTModel.SINHVIENBAITAP">
+              <MappingFragment StoreEntitySet="SINHVIENBAITAP">
+                <ScalarProperty Name="masinhvien" ColumnName="masinhvien" />
+                <ScalarProperty Name="mabaitap" ColumnName="mabaitap" />
+                <ScalarProperty Name="path" ColumnName="path" />
+                <ScalarProperty Name="thoigiannop" ColumnName="thoigiannop" />
+                <ScalarProperty Name="malop" ColumnName="malop" />
+                <ScalarProperty Name="tenfile" ColumnName="tenfile" />
+                <ScalarProperty Name="comment" ColumnName="comment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SINHVIENCUOCHENs">
+            <EntityTypeMapping TypeName="QL_PROJECTModel.SINHVIENCUOCHEN">
+              <MappingFragment StoreEntitySet="SINHVIENCUOCHEN">
+                <ScalarProperty Name="macuochen" ColumnName="macuochen" />
+                <ScalarProperty Name="masinhvien" ColumnName="masinhvien" />
+                <ScalarProperty Name="manhom" ColumnName="manhom" />
+                <ScalarProperty Name="magiaovien" ColumnName="magiaovien" />
+                <ScalarProperty Name="thoigiandat" ColumnName="thoigiandat" />
+                <ScalarProperty Name="malop" ColumnName="malop" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SINHVIENMONHOCs">
+            <EntityTypeMapping TypeName="QL_PROJECTModel.SINHVIENMONHOC">
+              <MappingFragment StoreEntitySet="SINHVIENMONHOC">
+                <ScalarProperty Name="mssv" ColumnName="mssv" />
+                <ScalarProperty Name="mamonhoc" ColumnName="mamonhoc" />
+                <ScalarProperty Name="kyhoc" ColumnName="kyhoc" />
+                <ScalarProperty Name="thoigianbatdau" ColumnName="thoigianbatdau" />
+                <ScalarProperty Name="thoigianketthuc" ColumnName="thoigianketthuc" />
+                <ScalarProperty Name="malop" ColumnName="malop" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="QL_PROJECTModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblFileDetails">
+            <EntityTypeMapping TypeName="QL_PROJECTModel.tblFileDetail">
+              <MappingFragment StoreEntitySet="tblFileDetails">
+                <ScalarProperty Name="SQLID" ColumnName="SQLID" />
+                <ScalarProperty Name="FILENAME" ColumnName="FILENAME" />
+                <ScalarProperty Name="FILEURL" ColumnName="FILEURL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USERACCOUNTs">
+            <EntityTypeMapping TypeName="QL_PROJECTModel.USERACCOUNT">
+              <MappingFragment StoreEntitySet="USERACCOUNT">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="PHANQUYEN" TypeName="QL_PROJECTModel.PHANQUYEN" StoreEntitySet="PHANQUYEN">
+            <EndProperty Name="CHUCNANG">
+              <ScalarProperty Name="machucnang" ColumnName="machucnang" />
+            </EndProperty>
+            <EndProperty Name="USERACCOUNT">
+              <ScalarProperty Name="ID" ColumnName="manguoidung" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

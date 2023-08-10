@@ -1,0 +1,273 @@
+﻿
+@{
+    ViewBag.Title = "DanhSachHen";
+    Layout = "~/Areas/Teacher/Views/Shared/_Layout.cshtml";
+}
+
+@{
+
+    var db = new Project2_QLSVLDA.Models.QL_PROJECTEntities();
+
+    string ses_gv = Session["user"].ToString();
+
+    var cuochen_allsystem = (from ch in db.CUOCHENs
+                             join gv in db.GIANGVIENs on ch.magiaovien equals gv.magv
+                             join svch in db.SINHVIENCUOCHENs on ch.macuochen equals svch.macuochen
+                             join sv in db.SINHVIENs on svch.masinhvien equals sv.massv
+                             select new
+                             {
+                                 sv.ten,
+                                 ch.macuochen,
+                                 ch.magiaovien,
+                                 ch.thoigianbatdau,
+                                 ch.thoigianketthuc,
+                                 ch.diadiem,
+                                 svch.thoigiandat,
+                                 ch.ghichu,
+                                 svch.masinhvien,
+                                 svch.manhom,
+                                 svch.malop
+
+                             }).ToList();
+
+
+    var list_cuoc_hen = cuochen_allsystem.Where(p => p.magiaovien.ToString().Trim() == ses_gv).ToList();
+
+
+
+
+}
+
+
+
+
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1></h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index","GiaoVienHome")">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index","GiaoVienCuocHen")">Tạo lịch hẹn</a></li>
+                    <li class="breadcrumb-item">Danh sách cuộc hẹn</li>
+
+                    @*<li class="breadcrumb-item active">Danh sách lớp</li>*@
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<div class="row">
+    <div class="col-12">
+
+        <!-- /.card -->
+
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Danh sách cuộc hẹn hiện có</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Mã cuộc hẹn</th>
+                            <th>Ngày</th>
+                            <th>Bắt đầu</th>
+                            <th>Kết thúc</th>
+                            <th>Địa điểm</th>
+                            <th>Sinh viên</th>
+                            <th>Nhóm</th>
+                            <th>Lớp</th>
+                            <th>Đánh giá</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in list_cuoc_hen)
+                        {
+                            <tr class="data-row">
+                                <td>
+                                    @item.macuochen
+                                </td>
+                                <td>
+                                    @item.thoigianbatdau.Value.ToString("yyyy/MM/dd")
+                                </td>
+                                <td>
+                                    @item.thoigianbatdau.Value.ToString("HH:mm")
+                                </td>
+                                <td>
+                                    @item.thoigianketthuc.Value.ToString("HH:mm")
+                                </td>
+                                <td>
+                                    @item.diadiem
+                                </td>
+                                <td>
+                                    @item.ten
+                                </td>
+                                <td>
+                                    @item.manhom
+                                </td>
+
+                                <td>
+                                    @item.malop
+                                </td>
+
+                                <td>
+                                    @item.ghichu
+                                </td>
+                            </tr>
+
+                        }
+                    </tbody>
+                    
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->
+
+<br>
+<br>
+<div class="row">
+    <div class="col-5 offset-md-7">
+
+        <!-- /.card -->
+
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Đánh giá cuộc hẹn</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+
+                <form method="post" action="/GiaoVienCuocHen/ActionName_Nhanxet" onsubmit="return validateForm()">
+
+                    <div class="form-group">
+                        <label for="id_meeting">Mã cuộc hẹn</label>
+                        <div>
+                            <input type="text" name="id_meeting" id="id_meeting" class="form-group  form-control" />
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gv_comment">Nội dung bài tập</label>
+                        <div>
+                            <textarea name="gv_comment" rows="4" id="gv_comment" class="form-group form-control"></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                </form>
+
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.content -->
+
+
+
+@section CSS{
+
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="~/Content/plugins/daterangepicker/daterangepicker.css">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="~/Content/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Bootstrap Color Picker -->
+    <link rel="stylesheet" href="~/Content/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="~/Content/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="~/Content/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/Content/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <!-- Bootstrap4 Duallistbox -->
+    <link rel="stylesheet" href="~/Content/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+    <!-- BS Stepper -->
+    <link rel="stylesheet" href="~/Content/plugins/bs-stepper/css/bs-stepper.min.css">
+    <!-- dropzonejs -->
+    <link rel="stylesheet" href="~/Content/plugins/dropzone/min/dropzone.min.css">
+
+    <link rel="stylesheet" href="~/Content/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/Content/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/Content/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
+}
+
+@section JS{
+
+
+    <!-- DataTables  & Plugins -->
+    <script src="~/Content/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Content/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Content/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/Content/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/Content/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/Content/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/Content/plugins/jszip/jszip.min.js"></script>
+    <script src="~/Content/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/Content/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/Content/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/Content/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/Content/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <!-- AdminLTE App -->
+    <!-- AdminLTE for demo purposes -->
+    <!-- Page specific script -->
+    <script>
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "buttons": []
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+
+    <script>
+        function validateForm() {
+
+            var gv_comment = document.getElementById("gv_comment").value.trim();
+            var id_meeting = document.getElementById("id_meeting").value.trim();
+
+            if (id_meeting === "") {
+                alert("Vui lòng điền mã cuộc hẹn");
+                return false;
+            }
+
+            if (gv_comment === "") {
+                alert("Vui lòng điền nhận xét");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+
+    @if (TempData["Message"] != null)
+    {
+        <script>
+        var message = '@TempData["Message"]';
+        alert(message);
+        </script>
+    }
+}

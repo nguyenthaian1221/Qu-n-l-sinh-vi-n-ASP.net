@@ -1,0 +1,164 @@
+﻿
+@{
+    ViewBag.Title = "DanhSachBaiTapDaTao";
+}
+
+@{
+    var db = new Project2_QLSVLDA.Models.QL_PROJECTEntities();
+
+    var ss = Session["user"].ToString();
+
+    var list_bt_lop = (from bt in db.BAITAPs select bt).ToList();
+
+}
+
+
+@{
+
+    // code xử lý dữ liệu đã được hiển thị lên bảng
+
+    string malop_pass;
+
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1></h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index","GiaoVienHome")">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index","GiaoVienBaiTap")">Tạo bài tập</a></li>
+                    <li class="breadcrumb-item">Danh sách bài tập đã tạo</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="row">
+    <div class="col-12">
+
+        <!-- /.card -->
+
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Danh sách bài tập đã tạo </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Mã lớp</th>
+                            <th>Nhóm</th>
+                            <th>Bắt đầu</th>
+                            <th>Kết thúc</th>
+                            <th>Nội dung</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in list_bt_lop)
+                        {
+                            <tr class="data-row">
+                                <td>
+                                    @item.mabaitap
+                                </td>
+                                <td>
+                                    @item.malop
+                                </td>
+                                <td>
+                                    @item.manhom
+                                </td>
+                                <td>
+                                    @item.ngaybatdau
+                                </td>
+                                <td>
+                                    @item.ngayketthuc
+                                </td>
+                                <td>
+                                    @item.noidung
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+</div>
+
+@section CSS{
+
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="~/Content/plugins/daterangepicker/daterangepicker.css">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="~/Content/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Bootstrap Color Picker -->
+    <link rel="stylesheet" href="~/Content/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="~/Content/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="~/Content/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/Content/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <!-- Bootstrap4 Duallistbox -->
+    <link rel="stylesheet" href="~/Content/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+    <!-- BS Stepper -->
+    <link rel="stylesheet" href="~/Content/plugins/bs-stepper/css/bs-stepper.min.css">
+    <!-- dropzonejs -->
+    <link rel="stylesheet" href="~/Content/plugins/dropzone/min/dropzone.min.css">
+
+    <link rel="stylesheet" href="~/Content/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/Content/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/Content/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
+}
+
+@section JS{
+
+
+    <script src="~/Content/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Content/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Content/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/Content/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/Content/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/Content/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/Content/plugins/jszip/jszip.min.js"></script>
+    <script src="~/Content/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/Content/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/Content/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/Content/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/Content/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+
+    <script>
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "buttons": []
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+
+}
+
+
+

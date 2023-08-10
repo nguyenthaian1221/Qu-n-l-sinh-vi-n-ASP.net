@@ -1,0 +1,231 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Student/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var db = new Project2_QLSVLDA.Models.QL_PROJECTEntities();
+
+    string ses_sinhvien = Session["user"].ToString();
+
+    var cuochen_allsystem = (from ch in db.CUOCHENs
+                             join gv in db.GIANGVIENs on ch.magiaovien equals gv.magv
+                             select new
+                             {
+                                 ch.macuochen,
+                                 ch.magiaovien,
+                                 ch.thoigianbatdau,
+                                 ch.thoigianketthuc,
+                                 gv.ten,
+                                 ch.tinhtrang,
+                                 ch.diadiem
+                             }).ToList();
+
+    var ds_lop_sv_hoc = (from lmh in db.LOPMONHOCs
+                         join svmh in db.SINHVIENMONHOCs on lmh.malop equals svmh.malop
+                         where svmh.mssv == ses_sinhvien
+                         select lmh.magv).ToList();
+
+    //var nhomKhacNhau = list_cuoc_hen.Select(item => item.malop).Distinct().ToArray();
+
+
+    var list_cuoc_hen = cuochen_allsystem.Where(p => ds_lop_sv_hoc.Contains(p.magiaovien)).ToList();
+
+
+
+
+}
+
+
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1></h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    @*<li class="breadcrumb-item">Trang chủ</li>*@
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index","SinhVienHome")">Trang chủ</a></li>
+                    <li class="breadcrumb-item active"><a href="@Url.Action("Index","SV_Meeting")">Danh sách cuộc hẹn</a></li>
+                    @*<li class="breadcrumb-item active">Thông tin các thành viên nhóm</li>*@
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+
+                <!-- /.card -->
+
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Danh sách cuộc hẹn hiện có</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Mã cuộc hẹn</th>
+                                    <th>Ngày</th>
+                                    <th>Bắt đầu</th>
+                                    <th>Kết thúc</th>
+                                    <th>Giáo viên</th>
+                                    <th>Địa điểm</th>
+                                    <th>Tình trạng</th>
+                                    <th>Đặt lịch</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in list_cuoc_hen)
+                                {
+                                    <tr class="data-row">
+                                        <td>
+                                            @item.macuochen
+                                        </td>
+                                        <td>
+                                            @item.thoigianbatdau.Value.ToString("yyyy/MM/dd")
+                                        </td>
+                                        <td>
+                                            @item.thoigianbatdau.Value.ToString("HH:mm")
+                                        </td>
+                                        <td>
+                                            @item.thoigianketthuc.Value.ToString("HH:mm")
+                                        </td>
+                                        <td>
+                                            @item.ten
+                                        </td>
+                                        <td>
+                                            @item.diadiem
+                                        </td>
+                                        <td>
+                                            @{
+                                                if (item.tinhtrang == 1)
+                                                { <span class="badge bg-success">Chưa đặt</span> }
+                                                else
+                                                { <span class="badge bg-danger">Đã đặt</span>
+                                                }
+                                            }
+                                        </td>
+
+                                        <td>
+                                            @*<button onclick="redirectToIndex(@item.magiaovien.Trim())" class="btn btn-primary" @((item.tinhtrang != 1) ? "disabled" : "")>Đặt</button>*@
+
+                                            @{
+                                                string url_temp;
+
+                                                if (item.tinhtrang == 1)
+                                                {
+                                                    url_temp = Url.Action("Book", "SV_Meeting", new { id = item.magiaovien.Trim(), macuochen = item.macuochen, magiaovien = item.magiaovien }).ToString();
+                                                }
+                                                else
+
+                                                {
+                                                    url_temp = "#";
+                                                }
+                                            }
+
+                                            <a class="btn btn-primary" href="@url_temp "> Đặt</a>
+                                        </td>
+                                    </tr>
+
+                                }
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+
+
+
+@section CSS{
+
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="~/Content/plugins/daterangepicker/daterangepicker.css">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="~/Content/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Bootstrap Color Picker -->
+    <link rel="stylesheet" href="~/Content/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="~/Content/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="~/Content/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/Content/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <!-- Bootstrap4 Duallistbox -->
+    <link rel="stylesheet" href="~/Content/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+    <!-- BS Stepper -->
+    <link rel="stylesheet" href="~/Content/plugins/bs-stepper/css/bs-stepper.min.css">
+    <!-- dropzonejs -->
+    <link rel="stylesheet" href="~/Content/plugins/dropzone/min/dropzone.min.css">
+
+    <link rel="stylesheet" href="~/Content/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/Content/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/Content/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
+}
+
+@section JS{
+
+
+    <!-- DataTables  & Plugins -->
+    <script src="~/Content/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Content/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Content/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/Content/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/Content/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/Content/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/Content/plugins/jszip/jszip.min.js"></script>
+    <script src="~/Content/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/Content/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/Content/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/Content/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/Content/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <!-- AdminLTE App -->
+    
+    <!-- AdminLTE for demo purposes -->
+    <!-- Page specific script -->
+    <script>
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "buttons": []
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+
+    @if (TempData["Message"] != null)
+    {
+        <script>
+        var message = '@TempData["Message"]';
+        alert(message);
+        </script>
+    }
+}

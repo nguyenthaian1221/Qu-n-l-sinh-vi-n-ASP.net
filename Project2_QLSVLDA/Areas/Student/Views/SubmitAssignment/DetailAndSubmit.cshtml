@@ -1,0 +1,132 @@
+﻿@model Project2_QLSVLDA.Models.SINHVIENBAITAP
+
+@{
+    ViewBag.Title = "DetailAndSubmit";
+    Layout = "~/Areas/Student/Views/Shared/_Layout.cshtml";
+    string str_ifexistmodel = (Model != null) ? Model.comment : "";
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1></h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    @*<li class="breadcrumb-item">Trang chủ</li>*@
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index","SinhVienHome")">Trang chủ</a></li>
+                    <li class="breadcrumb-item active"><a href="@Url.Action("Index","SubmitAssignment")">Danh sách bài tập</a></li>
+                    <li class="breadcrumb-item active">Thông tin chi tiết bài tập</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<section class="content">
+    <div class="container-fluid ">
+        <div class="row">
+            <!-- left column -->
+            <div class=" col-md-3"></div>
+            <!-- left column -->
+            <div class="col-md-5">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Nộp bài tập</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+
+                    @using (Html.BeginForm("Upload", "SubmitAssignment", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.Hidden("id", Request.QueryString["id"])
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Nội dung</label>
+                                <input type="text" class="form-control" id="exampleInputEmail1" value="@ViewBag.noidung" disabled>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="exercise_content">Mô tả</label>
+                                @* <input type="text" class="form-control" id="location" name="diadiem">*@
+                                <div>
+                                    <textarea @((Model != null) ? "readonly" : "") name="exercise_content" rows="4" id="exercise_content" style="width: 100%; text-anchor:start">@str_ifexistmodel.Trim()</textarea>
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="exampleInputFile">Tải file lên</label>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="exampleInputFile" name="file" @((Model != null) ? "disabled" : "")>
+                                        <label class="custom-file-label" for="exampleInputFile">
+                                            @{
+                                                if (Model != null)
+                                                { @Model.tenfile }
+                                            else
+                                            {<span>Chọn File</span> }
+                                            }
+
+
+                                        </label>
+                                    </div>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">Tải lên</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /.card-body -->
+
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary" @((Model != null) ? "disabled" : "")>Nộp bài</button>
+                            <button class="btn btn-secondary" onclick="redirectToIndex()" style="margin-left: 16px">Hủy</button>
+                        </div>
+
+
+                    }
+
+
+
+
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.card -->
+        </div>
+        <!--/.col (right) -->
+    </div>
+    <!-- /.row -->
+
+</section>
+
+
+
+@section JS{
+
+
+    <!-- bs-custom-file-input -->
+    <script src="~/Content/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+
+
+    <script>
+        $(function () {
+            bsCustomFileInput.init();
+        });</script>
+
+    <script>
+    function redirectToIndex() {
+        window.location.href = '@Url.Action("Index", " SubmitAssignment")';
+    }
+    </script>
+
+
+
+
+}
